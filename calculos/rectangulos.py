@@ -4,4 +4,3 @@ def rectangulos(a,b,n):
         integral += f(i)
 
     return integral * h
-
