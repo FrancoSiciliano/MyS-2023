@@ -68,7 +68,6 @@ class Algoritmo_montecarlo:
 
         plt.fill_between(x_vals, y_vals, interpolate=True, color='lightblue')
 
-        # Add labels and title
         plt.xlabel('x')
         plt.ylabel('y')
         plt.title('Integración por Monte Carlo')
