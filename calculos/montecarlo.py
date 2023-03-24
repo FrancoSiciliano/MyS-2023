@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from utils.parse import parse_local as pl
 
 
-class Algoritmo_montecarlo:
+class AlgoritmoMontecarlo:
 
     def __init__(self, f_x, a, b, n):
         self.f = pl(f_x)
