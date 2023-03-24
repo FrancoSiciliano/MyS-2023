@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 from utils.parse import parse_local_t as pt
-import mplcursors
 
 # t0 = varia segun enunciado
 # x0 = parametro
