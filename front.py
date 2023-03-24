@@ -1,53 +1,56 @@
-import sympy as sp
-import tkinter as tk
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from sympy.printing import latex
 import matplotlib.pyplot as plt
-
-# Crear una ventana de GUI
-ventana = tk.Tk()
-
-# Establecer el tamaño de la ventana y centrarla en la pantalla
-ventana.geometry('800x600+{}+{}'.format(int(ventana.winfo_screenwidth() / 2 - 800 / 2),
-                                        int(ventana.winfo_screenheight() / 2 - 600 / 2)))
-
-# Establecer el título de la ventana
-ventana.title('Modelado y simulación')
-
-# Pedir al usuario que ingrese la función
-etiqueta = tk.Label(ventana, text="Ingrese una función matemática", font=("Arial", 16))
-etiqueta.pack()
-
-# Crear un campo de entrada con un tamaño de fuente grande
-entrada_funcion = tk.Entry(ventana, font=("Arial", 14))
-entrada_funcion.pack()
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import sympy as sym
+import tkinter as tk
 
 
-# Función para mostrar la función ingresada en la ventana
-def mostrar_funcion():
-    # Obtener la función ingresada por el usuario
-    funcion = entrada_funcion.get()
+class PlotWindow:
+    def __init__(self, root):
+        self.root = root
+        self.canvas = None
 
-    # Convertir la entrada del usuario en una expresión simbólica
-    expr = sp.simplify(funcion)
+        # Crear la entrada de texto para la ecuación
+        equation_label = tk.Label(root, text="Ingrese la ecuación:")
+        equation_label.pack()
 
-    # Convertir la expresión simbólica en una cadena LaTeX
-    cadena_funcion = r"${}$".format(latex(expr))
+        self.equation_entry = tk.Entry(root, width=50)
+        self.equation_entry.pack()
 
-    # Crear una figura de matplotlib con la fórmula
-    fig, ax = plt.subplots()
-    ax.text(0.5, 0.5, cadena_funcion, fontsize=20, ha='center', va='center')
-    ax.axis('off')
+        # Crear el botón para generar el gráfico
+        plot_button = tk.Button(root, text="Generar gráfico", command=self.plot_equation)
+        plot_button.pack()
 
-    # Mostrar la figura en la ventana
-    canvas = FigureCanvasTkAgg(fig, master=ventana)
-    canvas.draw()
-    canvas.get_tk_widget().pack()
+    def plot_equation(self):
+        # Solicitar la ecuación al usuario
+        equation = self.equation_entry.get()
+
+        # Convertir la ecuación en una expresión de sympy
+        x = sym.symbols('x')  # Crear el símbolo 'x' para la variable independiente
+        expr = sym.sympify(equation)  # Convertir la cadena de entrada en una expresión sympy
+
+        # Convertir la expresión de sympy a una expresión de LaTeX
+        latex_expression = sym.latex(expr)
+
+        # Crear el gráfico de la ecuación
+        fig, ax = plt.subplots()
+        ax.text(0.5, 0.5, f"${latex_expression}$", fontsize=30, usetex=True)
+        ax.axis('off')
+
+        # Crear un lienzo de Matplotlib en la ventana de Tkinter
+        if self.canvas is None:
+            self.canvas = FigureCanvasTkAgg(fig, master=self.root)
+            self.canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+        else:
+            self.canvas.figure = fig
+            self.canvas.draw_idle()
 
 
-# Botón para mostrar la función ingresada por el usuario
-boton_mostrar = tk.Button(ventana, text="Mostrar función", command=mostrar_funcion)
-boton_mostrar.pack()
+# Crear la ventana principal
+root = tk.Tk()
+root.title("Gráfico de ecuación")
 
-# Iniciar el bucle principal de la ventana
-ventana.mainloop()
+# Crear la ventana de gráfico
+plot_window = PlotWindow(root)
+
+# Iniciar la ventana principal
+root.mainloop()
