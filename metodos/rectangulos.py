@@ -39,7 +39,3 @@ class AlgoritmoRectangulos:
         # Mostrar gráfico y resultado de la integral
         plt.show()
         return integral * h
-
-
-res = AlgoritmoRectangulos('sin(x)*e**x', 0, 100, 50)
-res.calcular_graficar()

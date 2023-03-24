@@ -1,12 +1,9 @@
 import numpy as np
-from Tools.scripts.nm2def import symbols
-import numpy
 import matplotlib.pyplot as plt
-from sympy import sympify, lambdify, symbols, exp
 
 from utils.parse import parse_local as pl
 
-class Algoritmo_trapecios:
+class AlgoritmoTrapecios:
 
     def __init__(self, f_x, a, b, n):
         self.f = pl(f_x)
@@ -15,7 +12,7 @@ class Algoritmo_trapecios:
         self.n = n
         self.Coordenadas_trapcios = []
 
-    def trapecios(self):
+    def calcular(self):
         h = (self.b - self.a) / self.n
         result = 0.5 * (self.f(self.a) + self.f(self.b))
         self.Coordenadas_trapcios.append((self.a, self.f(self.a)))
@@ -36,14 +33,3 @@ class Algoritmo_trapecios:
             y_trap = [self.Coordenadas_trapcios[i][1], self.Coordenadas_trapcios[i+1][1]]
             plt.fill_between(x_trap, y_trap, alpha=0.3)
         plt.show()
-
-f_x = str(input("Ingrese la función: "))
-a = int(input("Ingrese el límite inferior (desde): "))
-b = int(input("Ingrese el límite superior (hasta): "))
-n = int(input("Ingrese el número de subintervalos: "))
-
-integral = Algoritmo_trapecios(f_x,a,b,n)
-
-print(f"La aproximación de la integral de f(x) en [{a}, {b}] con {n} subintervalos es: {integral.trapecios()}")
-
-integral.graficar()

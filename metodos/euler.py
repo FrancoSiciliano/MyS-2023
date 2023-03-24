@@ -1,7 +1,6 @@
-import numpy
 import matplotlib.pyplot as plt
 from utils.parse import parse_local_t as pt
-
+import mplcursors
 
 # t0 = varia segun enunciado
 # x0 = parametro
@@ -40,9 +39,10 @@ class AlgoritmoEuler:
         plt.plot(x_plot, y_plot, c="green")
 
         plt.legend(loc="best")
+
         plt.show()
 
+    def punto(self, t):
+        if 0 <= t <= len(self.ptos_calculados):
+            return self.ptos_calculados[t][1]
 
-res = AlgoritmoEuler("e^t/x^t", 0, 10, 20)
-print(res.calcular())
-res.graficar()
