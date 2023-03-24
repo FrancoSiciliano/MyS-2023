@@ -15,12 +15,13 @@ class PlotWindow:
 
         self.equation_entry = tk.Entry(root, width=50)
         self.equation_entry.pack()
+        self.equation_entry.bind('<KeyRelease>', self.plot_equation)
 
         # Crear el botón para generar el gráfico
         plot_button = tk.Button(root, text="Generar gráfico", command=self.plot_equation)
         plot_button.pack()
 
-    def plot_equation(self):
+    def plot_equation(self, event=None):
         # Solicitar la ecuación al usuario
         equation = self.equation_entry.get()
 
