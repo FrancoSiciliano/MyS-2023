@@ -1,15 +1,12 @@
 import numpy
-from sympy import sympify, lambdify, symbols, exp
 import matplotlib.pyplot as plt
+from utils.parse import parse_local as pl
 
 
 class Algoritmo_montecarlo:
+
     def __init__(self, f_x, a, b, n):
-        aux = f_x.replace("sec", "1/cos")
-        aux = aux.replace("e", str(exp(1)))
-        x = symbols('x')
-        expr = sympify(aux)
-        self.f = lambdify(x, expr, 'numpy')
+        self.f = pl(f_x)
         self.a = a
         self.b = b
         self.n = n
@@ -72,22 +69,21 @@ class Algoritmo_montecarlo:
         plt.ylabel('y')
         plt.title('Integración por Monte Carlo')
 
-        if len(self.ptos_pos) > 0:
+        cant_pos = len(self.ptos_pos)
+        cant_neg = len(self.ptos_neg)
+        cant_nul = len(self.ptos_nul)
+
+        if cant_pos > 0:
             x_plot, y_plot = zip(*self.ptos_pos)
-            plt.scatter(x_plot, y_plot, label="positivos", c="green")
+            plt.scatter(x_plot, y_plot, label=f"positivos = {cant_pos}", c="green")
 
-        if len(self.ptos_neg) > 0:
+        if cant_neg > 0:
             x_plot, y_plot = zip(*self.ptos_neg)
-            plt.scatter(x_plot, y_plot, label="negativos", c="red")
+            plt.scatter(x_plot, y_plot, label=f"negativos = {cant_neg}", c="red")
 
-        if len(self.ptos_nul) > 0:
+        if cant_nul > 0:
             x_plot, y_plot = zip(*self.ptos_nul)
-            plt.scatter(x_plot, y_plot, label="nulos", c="blue")
+            plt.scatter(x_plot, y_plot, label=f"nulos = {cant_nul}", c="blue")
 
         plt.legend(loc='upper right')
         plt.show()
-
-
-test = Algoritmo_montecarlo("sin(x)", 1, 5, 500000)
-print(test.calcular())
-test.graficar()
