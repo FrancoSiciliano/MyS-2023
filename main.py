@@ -1,8 +1,12 @@
 import sys
 sys.path.append('.\\utils')
 sys.path.append('.\\metodos')
-from metodos import AlgoritmoEuler
+from metodos import AlgoritmoEulerMejorado, AlgoritmoEuler
 
-res = AlgoritmoEuler("e^t/x^t", 0, 10, 20)
+res = AlgoritmoEulerMejorado("x + t", 0, 5, 10)
+print(res.calcular())
+res.graficar()
+
+res = AlgoritmoEuler("x + t", 0, 5, 10)
 res.calcular()
 res.graficar()

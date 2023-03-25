@@ -1,16 +1,7 @@
 import matplotlib.pyplot as plt
 from utils.parse import parse_local_t as pt
 
-# t0 = varia segun enunciado
-# x0 = parametro
-# tk = t0 + kh
-# n = b/h
-# Xk+1 = Xk + h*f(Xk,Tk)
 
-
-# parametros
-# x(0) = x0
-# 0 <= t <= b
 class AlgoritmoEuler:
 
     def __init__(self, f_x, x0, b, n):
@@ -44,4 +35,3 @@ class AlgoritmoEuler:
     def punto(self, t):
         if 0 <= t <= len(self.ptos_calculados):
             return self.ptos_calculados[t][1]
-
