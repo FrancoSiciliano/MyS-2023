@@ -30,6 +30,11 @@ class PlotWindow:
         # Solicitar la ecuación al usuario
         equation = self.equation_entry.get()
 
+        # Si la entrada está vacía, borrar el contenido del canvas
+        if not equation:
+            self.canvas.get_tk_widget().delete('all')
+            return
+
         # Convertir la ecuación en una expresión de sympy
         x = sym.symbols('x')  # Crear el símbolo 'x' para la variable independiente
         try:
