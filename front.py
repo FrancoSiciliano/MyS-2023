@@ -18,48 +18,40 @@ class PlotWindow:
         self.equation_entry.bind('<KeyRelease>', self.plot_equation)
 
         # Crear el lienzo de Matplotlib en la ventana de Tkinter
-        fig, ax = plt.subplots()
-        ax.axis('off')
-        ax.set_ylim([-1.5, 1.5])  # Configurar el rango del eje y para asegurar una buena visualización
-        self.canvas = FigureCanvasTkAgg(fig, master=self.root)
+        self.fig, self.ax = plt.subplots()
+        self.ax.axis('off')
+        self.ax.text(0.5, 0.5, "$f(x):$", fontsize=20, usetex=True, ha='center', va='center')
+        self.canvas = FigureCanvasTkAgg(self.fig, master=self.root)
         self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True, padx=10, pady=10)
         self.canvas.draw()
 
     def plot_equation(self, event=None):
 
+        self.ax.cla()
+        self.ax.axis('off')
+
         # Solicitar la ecuación al usuario
         equation = self.equation_entry.get()
 
-        # Si la entrada está vacía, borrar el contenido del canvas
-        if not equation:
-            self.canvas.get_tk_widget().delete('all')
-            return
+        if equation == '':
+            self.ax.text(0.5, 0.5, "$f(x):$", fontsize=20, usetex=True, ha='center', va='center')
+        else:
+            try:
+                expr = sym.sympify(equation)  # Convertir la cadena de entrada en una expresión sympy
+            except sym.SympifyError:
+                return
 
-        # Convertir la ecuación en una expresión de sympy
-        x = sym.symbols('x')  # Crear el símbolo 'x' para la variable independiente
-        try:
-            expr = sym.sympify(equation)  # Convertir la cadena de entrada en una expresión sympy
-        except sym.SympifyError:
-            return
-
-        # Convertir la expresión de sympy a una expresión de LaTeX
-        latex_expression = sym.latex(expr)
-
-        # Crear el gráfico de la ecuación
-        fig, ax = plt.subplots()
-        ax.text(0.5, 0.5, f"${latex_expression}$", fontsize=30, usetex=True)
-        ax.axis('off')
-        ax.set_ylim([-1.5, 1.5])  # Configurar el rango del eje y para asegurar una buena visualización
+            self.ax.text(0.5, 0.5, f"$f(x): {sym.latex(expr)}$", fontsize=20, usetex=True, ha='center', va='center')
 
         # Actualizar el lienzo de Matplotlib en la ventana de Tkinter
-        self.canvas.figure = fig
+        self.canvas.figure = self.fig
         self.canvas.draw()
 
 
 # Crear la ventana principal
 root = tk.Tk()
 root.title("Gráfico de ecuación")
-root.geometry("400x300")
+root.geometry("600x400")
 
 # Crear la ventana de gráfico
 plot_window = PlotWindow(root)
