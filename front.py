@@ -9,49 +9,47 @@ class PlotWindow:
         self.root = root
         self.canvas = None
 
-        # Crear la entrada de texto para la ecuación
-        equation_label = tk.Label(root, text="Ingrese la ecuación:")
+        font = ('TkDefaultFont', 12)
+        equation_label = tk.Label(root, font=font, text="Ingrese la ecuación:")
         equation_label.pack()
 
         self.equation_entry = tk.Entry(root, width=50)
         self.equation_entry.pack()
         self.equation_entry.bind('<KeyRelease>', self.plot_equation)
 
-        # Crear botones para agregar funciones
+        # Botones para agregar funciones
         function_frame = tk.Frame(root)
         function_frame.pack(pady=10)
 
-        plus_button = tk.Button(function_frame, text='+', command=lambda: self.add_function('+'))
+        plus_button = tk.Button(function_frame, text='+', font=font, command=lambda: self.add_function('+'))
         plus_button.pack(side=tk.LEFT, padx=5)
 
-        minus_button = tk.Button(function_frame, text='-', command=lambda: self.add_function('-'))
+        minus_button = tk.Button(function_frame, text='-', font=font, command=lambda: self.add_function('-'))
         minus_button.pack(side=tk.LEFT, padx=5)
 
-        multiply_button = tk.Button(function_frame, text='*', command=lambda: self.add_function('*'))
+        multiply_button = tk.Button(function_frame, text='*', font=font, command=lambda: self.add_function('*'))
         multiply_button.pack(side=tk.LEFT, padx=5)
 
-        divide_button = tk.Button(function_frame, text='/', command=lambda: self.add_function('/'))
+        divide_button = tk.Button(function_frame, text='/', font=font, command=lambda: self.add_function('/'))
         divide_button.pack(side=tk.LEFT, padx=5)
 
-        pow_button = tk.Button(function_frame, text='^', command=lambda: self.add_function('^'))
+        pow_button = tk.Button(function_frame, text='^', font=font, command=lambda: self.add_function('^'))
         pow_button.pack(side=tk.LEFT, padx=5)
 
-        sqrt_button = tk.Button(function_frame, text='√x', command=lambda: self.add_function('sqrt(x)'))
+        sqrt_button = tk.Button(function_frame, text='√x', font=font, command=lambda: self.add_function('sqrt(x)'))
         sqrt_button.pack(side=tk.LEFT, padx=5)
 
-        cubic_button = tk.Button(function_frame, text='∛x', command=lambda: self.add_function('x^(1/3)'))
+        cubic_button = tk.Button(function_frame, text='∛x', font=font, command=lambda: self.add_function('x^(1/3)'))
         cubic_button.pack(side=tk.LEFT, padx=5)
 
-        sin_button = tk.Button(function_frame, text='sin(x)', command=lambda: self.add_function('sin(x)'))
+        sin_button = tk.Button(function_frame, text='sin(x)', font=font, command=lambda: self.add_function('sin(x)'))
         sin_button.pack(side=tk.LEFT, padx=5)
 
-        cos_button = tk.Button(function_frame, text='cos(x)', command=lambda: self.add_function('cos(x)'))
+        cos_button = tk.Button(function_frame, text='cos(x)', font=font, command=lambda: self.add_function('cos(x)'))
         cos_button.pack(side=tk.LEFT, padx=5)
 
-        tg_button = tk.Button(function_frame, text='tan(x)', command=lambda: self.add_function('tan(x)'))
+        tg_button = tk.Button(function_frame, text='tan(x)', font=font, command=lambda: self.add_function('tan(x)'))
         tg_button.pack(side=tk.LEFT, padx=5)
-
-
 
         # Crear el lienzo de Matplotlib en la ventana de Tkinter
         self.fig, self.ax = plt.subplots()
