@@ -80,7 +80,7 @@ class PlotWindow:
         self.entry_a.grid(row=0, column=1)
 
         # input ecuación
-        equation_label = tk.Label(root, font=font, text="Ingrese la ecuación diferencial:")
+        equation_label = tk.Label(root, font=font, text="Ingrese la funcion f(x):")
         equation_label.pack()
 
         self.equation_entry = tk.Entry(root, width=50)
