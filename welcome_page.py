@@ -34,7 +34,7 @@ class RadioButtonsGUI:
         integracion_window = tk.Tk()
         integracion_window.title("Integración")
         integracion_window.geometry("600x400")
-        pvi(integracion_window)
+        integracion(integracion_window)
         integracion_window.mainloop()
 
 root = tk.Tk()

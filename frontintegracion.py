@@ -2,6 +2,24 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import sympy as sym
 import tkinter as tk
+from metodos.rectangulos import AlgoritmoRectangulos
+from metodos.trapecios import AlgoritmoTrapecios
+from metodos.montecarlo import AlgoritmoMontecarlo
+
+def validar_texto(texto):
+    return (len(texto) <= 4 and texto.isnumeric()) or not texto
+
+
+def validar_x0(texto):
+    if not texto:
+        return True
+
+    try:
+        float(texto)
+        return True
+    except ValueError:
+        return False
+
 
 class PlotWindow:
     def __init__(self, root):
@@ -9,7 +27,60 @@ class PlotWindow:
         self.canvas = None
 
         font = ('TkDefaultFont', 12)
-        equation_label = tk.Label(root, font=font, text="Ingrese la integral :")
+
+        input_form = tk.Frame(root)
+        input_form.pack()
+
+        # elección de método
+        method_input = tk.Frame(input_form)
+        method_input.grid(row=0, column=0)
+        self.opcion = tk.IntVar()
+
+        label_method = tk.Label(method_input, text="Eliga el método de resolución: ", font=font)
+        label_method.grid(row=0, column=0)
+
+        rb_rectangulos = tk.Radiobutton(method_input, text="Método de los rectangulos", variable=self.opcion, value=1)
+        rb_rectangulos.grid(row=1, column=0)
+
+        rb_trapecios = tk.Radiobutton(method_input, text="Método de los trapecios", variable=self.opcion, value=2)
+        rb_trapecios.grid(row=2, column=0)
+
+        rb_montecarlo = tk.Radiobutton(method_input, text="Método de montecarlo", variable=self.opcion, value=3)
+        rb_montecarlo.grid(row=3, column=0)
+
+
+        # input de n
+        input_frame = tk.Frame(input_form)
+        input_frame.grid(row=1, column=0)
+
+        label_n = tk.Label(input_frame, text="Número de intervalos: ", font=font)
+        label_n.grid(row=0, column=0)
+
+        self.entry_n = tk.Entry(input_frame, width=4, validate="key", validatecommand=(root.register(validar_texto), '%P'))
+        self.entry_n.grid(row=0, column=1)
+
+        # input de b
+        input_frame_b = tk.Frame(input_form)
+        input_frame_b.grid(row=2, column=0)
+
+        label_b = tk.Label(input_frame_b, text="Límite superior b (hasta):", font=font)
+        label_b.grid(row=0, column=0)
+
+        self.entry_b = tk.Entry(input_frame_b, width=4, validate="key", validatecommand=(root.register(validar_texto), '%P'))
+        self.entry_b.grid(row=0, column=1)
+
+        # input de a
+        input_frame_a = tk.Frame(input_form)
+        input_frame_a.grid(row=3, column=0)
+
+        label_a = tk.Label(input_frame_a, text="Límite inferior a (desde):", font=font)
+        label_a.grid(row=0, column=0)
+
+        self.entry_a = tk.Entry(input_frame_a, width=4, validate="key", validatecommand=(root.register(validar_x0), '%P'))
+        self.entry_a.grid(row=0, column=1)
+
+        # input ecuación
+        equation_label = tk.Label(root, font=font, text="Ingrese la ecuación diferencial:")
         equation_label.pack()
 
         self.equation_entry = tk.Entry(root, width=50)
@@ -53,10 +124,17 @@ class PlotWindow:
         # Crear el lienzo de Matplotlib en la ventana de Tkinter
         self.fig, self.ax = plt.subplots()
         self.ax.axis('off')
-        self.ax.text(0.5, 0.5, "$f(x):$", fontsize=20, usetex=True, ha='center', va='center')
+        self.ax.text(0.5, 0.5, "$f(x,t):$", fontsize=20, usetex=True, ha='center', va='center')
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.root)
-        self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True, padx=10, pady=10)
+        self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH,expand=True, padx=10, pady=10)
         self.canvas.draw()
+
+        #boton de calcular
+        calcular_frame = tk.Frame(root)
+        calcular_frame.pack()
+
+        boton_calc = tk.Button(calcular_frame, text="Calcular", command=self.calcular)
+        boton_calc.pack()
 
     def plot_equation(self, event=None):
 
@@ -66,16 +144,15 @@ class PlotWindow:
         # Solicitar la ecuación al usuario
         equation = self.equation_entry.get()
 
-
         if equation == '':
-            self.ax.text(0.5, 0.5, "$f(x):$", fontsize=20, usetex=True, ha='center', va='center')
+            self.ax.text(0.5, 0.5, "$f(x,t):$", fontsize=20, usetex=True, ha='center', va='center')
         else:
             try:
                 expr = sym.sympify(equation)  # Convertir la cadena de entrada en una expresión sympy
             except sym.SympifyError:
                 return
 
-            self.ax.text(0.5, 0.5, f"$f(x): {sym.latex(expr)}$", fontsize=20, usetex=True, ha='center', va='center')
+            self.ax.text(0.5, 0.5, f"$f(x,t): {sym.latex(expr)}$", fontsize=20, usetex=True, ha='center', va='center')
 
         # Actualizar el lienzo de Matplotlib en la ventana de Tkinter
         self.canvas.figure = self.fig
@@ -90,4 +167,21 @@ class PlotWindow:
             self.equation_entry.insert(tk.END, current_equation + function)
         self.plot_equation()
 
+    def calcular(self):
+        equation = self.equation_entry.get()
+        metodo = self.opcion.get()
+        a = self.entry_a.get()
+        b = self.entry_b.get()
+        n = self.entry_n.get()
 
+        if metodo == 1:
+            rectangulos = AlgoritmoRectangulos(equation, int(a), int(b), int(n))
+            rectangulos.calcular_graficar()
+        elif metodo == 2:
+            trapecios = AlgoritmoTrapecios(equation, int(a), int(b), int(n))
+            trapecios.calcular()
+            trapecios.graficar()
+        else:
+            montecarlo = AlgoritmoMontecarlo(equation, int(a), int(b), int(n))
+            montecarlo.calcular()
+            montecarlo.graficar()

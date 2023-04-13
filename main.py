@@ -1,13 +1,8 @@
 import sys
-from metodos import AlgoritmoEulerMejorado, AlgoritmoEuler
-
 sys.path.append('.\\utils')
 sys.path.append('.\\metodos')
+from metodos import AlgoritmoTrapecios
 
-res = AlgoritmoEulerMejorado("x + t", 0, 5, 10)
-print(res.calcular())
-res.graficar()
-
-res = AlgoritmoEuler("x + t", 0, 5, 10)
+res = AlgoritmoTrapecios("sen(x)",1,10,10)
 res.calcular()
 res.graficar()
