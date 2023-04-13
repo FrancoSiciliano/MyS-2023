@@ -25,6 +25,8 @@ class AlgoritmoTrapecios:
         return result
 
     def graficar(self):
+
+        plt.title('Integración por método de los trapecios')
         x_vals = np.linspace(self.a, self.b, 1000)
         y_vals = self.f(x_vals)
         plt.plot(x_vals, y_vals, label='f(x)')
