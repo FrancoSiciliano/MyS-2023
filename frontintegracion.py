@@ -31,57 +31,63 @@ class PlotWindow:
         input_form = tk.Frame(root)
         input_form.pack()
 
+        def update_label_text():
+            if self.opcion.get() == 3:
+                label_n.config(text="Cantidad de puntos:    ")
+            else:
+                label_n.config(text="Número de intervalos: ")
+
         # elección de método
         method_input = tk.Frame(input_form)
-        method_input.grid(row=0, column=0)
+        method_input.grid(row=0, column=0, sticky="w")
         self.opcion = tk.IntVar()
 
         label_method = tk.Label(method_input, text="Eliga el método de resolución: ", font=font)
         label_method.grid(row=0, column=0)
 
-        rb_rectangulos = tk.Radiobutton(method_input, text="Método de los rectangulos", variable=self.opcion, value=1)
-        rb_rectangulos.grid(row=1, column=0)
+        rb_rectangulos = tk.Radiobutton(method_input, text="Método de los rectangulos", variable=self.opcion, value=1,command=update_label_text)
+        rb_rectangulos.grid(row=1, column=0,sticky="w")
 
-        rb_trapecios = tk.Radiobutton(method_input, text="Método de los trapecios", variable=self.opcion, value=2)
-        rb_trapecios.grid(row=2, column=0)
+        rb_trapecios = tk.Radiobutton(method_input, text="Método de los trapecios", variable=self.opcion, value=2,command=update_label_text)
+        rb_trapecios.grid(row=2, column=0,sticky="w")
 
-        rb_montecarlo = tk.Radiobutton(method_input, text="Método de montecarlo", variable=self.opcion, value=3)
-        rb_montecarlo.grid(row=3, column=0)
+        rb_montecarlo = tk.Radiobutton(method_input, text="Método de montecarlo", variable=self.opcion, value=3,command=update_label_text)
+        rb_montecarlo.grid(row=3, column=0,sticky="w")
 
 
         # input de n
         input_frame = tk.Frame(input_form)
-        input_frame.grid(row=1, column=0)
+        input_frame.grid(row=1, column=0,sticky="w")
 
         label_n = tk.Label(input_frame, text="Número de intervalos: ", font=font)
         label_n.grid(row=0, column=0)
 
-        self.entry_n = tk.Entry(input_frame, width=4, validate="key", validatecommand=(root.register(validar_texto), '%P'))
-        self.entry_n.grid(row=0, column=1)
+        self.entry_n = tk.Entry(input_frame, width=8, validate="key", validatecommand=(root.register(validar_texto), '%P'))
+        self.entry_n.grid(row=0, column=5,padx=20)
 
         # input de b
         input_frame_b = tk.Frame(input_form)
-        input_frame_b.grid(row=2, column=0)
+        input_frame_b.grid(row=2, column=0,sticky="w")
 
         label_b = tk.Label(input_frame_b, text="Límite superior b (hasta):", font=font)
-        label_b.grid(row=0, column=0)
+        label_b.grid(row=0, column=0,sticky="w")
 
-        self.entry_b = tk.Entry(input_frame_b, width=4, validate="key", validatecommand=(root.register(validar_texto), '%P'))
-        self.entry_b.grid(row=0, column=1)
+        self.entry_b = tk.Entry(input_frame_b, width=8, validate="key", validatecommand=(root.register(validar_texto), '%P'))
+        self.entry_b.grid(row=0, column=2,padx=3)
 
         # input de a
         input_frame_a = tk.Frame(input_form)
-        input_frame_a.grid(row=3, column=0)
+        input_frame_a.grid(row=3, column=0,sticky="w")
 
         label_a = tk.Label(input_frame_a, text="Límite inferior a (desde):", font=font)
-        label_a.grid(row=0, column=0)
+        label_a.grid(row=0, column=0,sticky="w")
 
-        self.entry_a = tk.Entry(input_frame_a, width=4, validate="key", validatecommand=(root.register(validar_x0), '%P'))
-        self.entry_a.grid(row=0, column=1)
+        self.entry_a = tk.Entry(input_frame_a, width=8, validate="key", validatecommand=(root.register(validar_x0), '%P'))
+        self.entry_a.grid(row=0, column=2,padx=6)
 
         # input ecuación
         equation_label = tk.Label(root, font=font, text="Ingrese la funcion f(x):")
-        equation_label.pack()
+        equation_label.pack(anchor='w', padx=146)
 
         self.equation_entry = tk.Entry(root, width=50)
         self.equation_entry.pack()
@@ -186,3 +192,4 @@ class PlotWindow:
             montecarlo = AlgoritmoMontecarlo(equation, int(a), int(b), int(n))
             montecarlo.calcular()
             montecarlo.graficar()
+
