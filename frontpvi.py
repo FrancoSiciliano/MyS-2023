@@ -40,44 +40,44 @@ class PlotWindow:
         label_method.grid(row=0, column=0)
 
         rb_euler = tk.Radiobutton(method_input, text="Método de Euler", variable=self.opcion, value=1)
-        rb_euler.grid(row=1, column=0)
+        rb_euler.grid(row=1, column=0,sticky="w")
 
         rb_euler_mejorado = tk.Radiobutton(method_input, text="Método de Euler mejorado", variable=self.opcion, value=2)
-        rb_euler_mejorado.grid(row=2, column=0)
+        rb_euler_mejorado.grid(row=2, column=0,sticky="w")
 
         # input de n
         input_frame = tk.Frame(input_form)
-        input_frame.grid(row=1, column=0)
+        input_frame.grid(row=1, column=0,sticky="w")
 
         label_n = tk.Label(input_frame, text="Número de intervalos: ", font=font)
-        label_n.grid(row=0, column=0)
+        label_n.grid(row=0, column=0,sticky="w")
 
-        self.entry_n = tk.Entry(input_frame, width=4, validate="key", validatecommand=(root.register(validar_texto), '%P'))
-        self.entry_n.grid(row=0, column=1)
+        self.entry_n = tk.Entry(input_frame, width=9, validate="key", validatecommand=(root.register(validar_texto), '%P'))
+        self.entry_n.grid(row=0, column=1,sticky="w")
 
         # input de t
         input_frame_t = tk.Frame(input_form)
-        input_frame_t.grid(row=2, column=0)
+        input_frame_t.grid(row=2, column=0,sticky="w")
 
         label_b = tk.Label(input_frame_t, text="0 ≤ t ≤ ", font=font)
-        label_b.grid(row=0, column=0)
+        label_b.grid(row=0, column=0,sticky="w")
 
-        self.entry_b = tk.Entry(input_frame_t, width=4, validate="key", validatecommand=(root.register(validar_texto), '%P'))
+        self.entry_b = tk.Entry(input_frame_t, width=20, validate="key", validatecommand=(root.register(validar_texto), '%P'))
         self.entry_b.grid(row=0, column=1)
 
         # input de x0
         input_frame_x0 = tk.Frame(input_form)
-        input_frame_x0.grid(row=3, column=0)
+        input_frame_x0.grid(row=3, column=0,sticky="w")
 
-        label_x0 = tk.Label(input_frame_x0, text="x(0) = ", font=font)
-        label_x0.grid(row=0, column=0)
+        label_x0 = tk.Label(input_frame_x0, text="x(0) =  ", font=font)
+        label_x0.grid(row=0, column=0,sticky="w")
 
         self.entry_x0 = tk.Entry(input_frame_x0, validate="key", validatecommand=(root.register(validar_x0), '%P'))
-        self.entry_x0.grid(row=0, column=1)
+        self.entry_x0.grid(row=0, column=1,sticky="w")
 
         # input ecuación
         equation_label = tk.Label(root, font=font, text="Ingrese la ecuación diferencial:")
-        equation_label.pack()
+        equation_label.pack(anchor='w', padx=146)
 
         self.equation_entry = tk.Entry(root, width=50)
         self.equation_entry.pack()
