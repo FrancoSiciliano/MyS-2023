@@ -88,4 +88,5 @@ class AlgoritmoMontecarlo:
             plt.scatter(x_plot, y_plot, label=f"nulos = {cant_nul}", c="blue")
 
         plt.legend(loc='upper right')
+        plt.annotate(f"Resultado: {self.resultado:.2f}", (0, 0), (0, -20), xycoords='axes fraction', textcoords='offset points', va='top')
         plt.show()

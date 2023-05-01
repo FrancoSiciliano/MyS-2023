@@ -23,7 +23,6 @@ class AlgoritmoRectangulos:
         plt.xlim(self.a - h, self.b + h)
         plt.ylim(ymin - 0.1 * abs(ymin), ymax + 0.1 * abs(ymax))
 
-
         plt.plot(x_vals, y_vals)
         plt.fill_between(x_vals, 0, y_vals, alpha=0.2)
 
@@ -32,5 +31,9 @@ class AlgoritmoRectangulos:
             integral += result
             plt.bar(self.a + (i * h), result, h, alpha=0.2, edgecolor='black', linewidth=1, align='edge')
 
+        plt.xlabel('x')
+        plt.ylabel('y')
+        plt.title(f'Integración por método de los rectángulos')
+        plt.annotate(f"Resultado: {(integral * h):.2f}", (0, 0), (0, -20), xycoords='axes fraction', textcoords='offset points', va='top')
         plt.show()
         return integral * h
