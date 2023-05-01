@@ -21,16 +21,14 @@ class RadioButtonsGUI:
         self.rb2.pack(pady=10)
 
     def pvi(self):
-        root.destroy()
         pvi_window = tk.Tk()
         pvi_window.title("PVI")
-        pvi_window.geometry("600x800")
+        pvi_window.geometry("600x400")
         pvi(pvi_window)
         pvi_window.mainloop()
 
 
     def integracion_numerica(self):
-        root.destroy()
         integracion_window = tk.Tk()
         integracion_window.title("Integración")
         integracion_window.geometry("600x400")
