@@ -126,12 +126,13 @@ class PlotWindow:
         self.ax.axis('off')
         self.ax.text(0.5, 0.5, "$f(x,t):$", fontsize=20, usetex=True, ha='center', va='center')
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.root)
-        self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH,expand=True, padx=10, pady=10)
+        self.canvas.get_tk_widget().config(width=600, height=50)
+        self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True, padx=10, pady=10)
         self.canvas.draw()
 
         #boton de calcular
         calcular_frame = tk.Frame(root)
-        calcular_frame.pack()
+        calcular_frame.pack(pady=10)
 
         boton_calc = tk.Button(calcular_frame, text="Calcular", command=self.calcular)
         boton_calc.pack()
