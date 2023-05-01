@@ -23,7 +23,7 @@ class RadioButtonsGUI:
     def pvi(self):
         pvi_window = tk.Tk()
         pvi_window.title("PVI")
-        pvi_window.geometry("600x800")
+        pvi_window.geometry("600x400")
         pvi(pvi_window)
         pvi_window.mainloop()
 
