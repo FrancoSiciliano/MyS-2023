@@ -117,7 +117,6 @@ class PlotWindow:
         tg_button = tk.Button(function_frame, text='tan(x)', font=font, command=lambda: self.add_function('tan(x)'))
         tg_button.pack(side=tk.LEFT, padx=5)
 
-        # Crear el lienzo de Matplotlib en la ventana de Tkinter
         self.fig, self.ax = plt.subplots()
         self.ax.axis('off')
         self.ax.text(0.5, 0.5, "$f(x,t):$", fontsize=20, usetex=True, ha='center', va='center')
@@ -138,20 +137,18 @@ class PlotWindow:
         self.ax.cla()
         self.ax.axis('off')
 
-        # Solicitar la ecuación al usuario
         equation = self.equation_entry.get()
 
         if equation == '':
             self.ax.text(0.5, 0.5, "$f(x,t):$", fontsize=20, usetex=True, ha='center', va='center')
         else:
             try:
-                expr = sym.sympify(equation)  # Convertir la cadena de entrada en una expresión sympy
+                expr = sym.sympify(equation)
             except sym.SympifyError:
                 return
 
             self.ax.text(0.5, 0.5, f"$f(x,t): {sym.latex(expr)}$", fontsize=20, usetex=True, ha='center', va='center')
 
-        # Actualizar el lienzo de Matplotlib en la ventana de Tkinter
         self.canvas.figure = self.fig
         self.canvas.draw()
 
