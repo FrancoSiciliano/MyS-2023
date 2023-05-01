@@ -1,8 +1,6 @@
-import sys
-sys.path.append('.\\utils')
-sys.path.append('.\\metodos')
-from metodos import AlgoritmoTrapecios
+import tkinter as tk
+import welcome_page
 
-res = AlgoritmoTrapecios("sen(x)",1,10,10)
-res.calcular()
-res.graficar()
+root = tk.Tk()
+welcome_page.start_window(root)
+
