@@ -20,6 +20,8 @@ class AlgoritmoEuler:
         return self.ptos_calculados[-1][1]
 
     def graficar(self):
+        plt.close(None)
+
         plt.xlabel('t')
         plt.ylabel('x(t)')
         plt.title('PVI - Euler')

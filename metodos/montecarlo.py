@@ -13,6 +13,7 @@ class AlgoritmoMontecarlo:
         self.ptos_pos = []
         self.ptos_neg = []
         self.ptos_nul = []
+        self.resultado = 0
 
     def calcular(self):
         puntos_dentro = 0
@@ -54,13 +55,14 @@ class AlgoritmoMontecarlo:
             else:
                 self.ptos_nul.append((coord_x, coord_y))
 
-        resultado = (puntos_dentro / self.n) * m * h
+        self.resultado = (puntos_dentro / self.n) * m * h
 
-        return resultado
+        return self.resultado
 
     def graficar(self):
         x_vals = numpy.linspace(self.a, self.b, 1000)
         y_vals = self.f(x_vals)
+        plt.close(None)
         plt.plot(x_vals, y_vals, label='f(x)')
 
         plt.fill_between(x_vals, y_vals, interpolate=True, color='lightblue')

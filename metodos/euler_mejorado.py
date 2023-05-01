@@ -25,6 +25,7 @@ class AlgoritmoEulerMejorado:
         plt.title('PVI - Euler Mejorado')
 
         x_plot, y_plot = zip(*self.ptos_calculados)
+        plt.close(None)
         plt.scatter(x_plot, y_plot, label="puntos calculados", c="red")
         plt.plot(x_plot, y_plot, c="green")
 

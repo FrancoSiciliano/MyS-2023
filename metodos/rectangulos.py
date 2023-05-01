@@ -21,6 +21,7 @@ class AlgoritmoRectangulos:
         ymin, ymax = min(y_vals), max(y_vals)
 
         # Ajustar límites de la gráfica
+        plt.close(None)
         plt.xlim(self.a - h, self.b + h)
         plt.ylim(ymin - 0.1 * abs(ymin), ymax + 0.1 * abs(ymax))
 
@@ -32,9 +33,9 @@ class AlgoritmoRectangulos:
         plt.fill_between(x_vals, 0, y_vals, alpha=0.2)
 
         for i in range(self.n):
-            result = self.f(self.a + i * h)
+            result = self.f(self.a + (i * h))
             integral += result
-            plt.bar(self.a + i * h, result, h, alpha=0.2, edgecolor='black', linewidth=1, align='edge')
+            plt.bar(self.a + (i * h), result, h, alpha=0.2, edgecolor='black', linewidth=1, align='edge')
 
         # Mostrar gráfico y resultado de la integral
         plt.show()

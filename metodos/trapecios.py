@@ -29,6 +29,8 @@ class AlgoritmoTrapecios:
         plt.title('Integración por método de los trapecios')
         x_vals = np.linspace(self.a, self.b, 1000)
         y_vals = self.f(x_vals)
+
+        plt.close(None)
         plt.plot(x_vals, y_vals, label='f(x)')
         for i in range(self.n):
             x_trap = [self.Coordenadas_trapcios[i][0], self.Coordenadas_trapcios[i+1][0]]
