@@ -5,7 +5,6 @@ import tkinter as tk
 from metodos.rectangulos import AlgoritmoRectangulos
 from metodos.trapecios import AlgoritmoTrapecios
 from metodos.montecarlo import AlgoritmoMontecarlo
-
 def validar_texto(texto):
     return (len(texto) <= 4 and texto.isnumeric()) or not texto
 
