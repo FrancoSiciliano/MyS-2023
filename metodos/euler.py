@@ -20,17 +20,52 @@ class AlgoritmoEuler:
         return self.ptos_calculados[-1][1]
 
     def graficar(self):
+
         plt.close(None)
+        fig, ax = plt.subplots()
 
         plt.xlabel('t')
         plt.ylabel('x(t)')
         plt.title('PVI - Euler')
 
         x_plot, y_plot = zip(*self.ptos_calculados)
-        plt.scatter(x_plot, y_plot, label="puntos calculados", c="red")
+        scatter = plt.scatter(x_plot, y_plot, label="puntos calculados", c="red")
         plt.plot(x_plot, y_plot, c="green")
 
         plt.legend(loc="best")
+
+        annotation = ax.annotate(
+            text='',
+            xy=(0, 0),
+            xytext=(15, 15),  # distance from x, y
+            textcoords='offset points',
+            bbox={'boxstyle': 'round', 'fc': 'w'},
+            arrowprops={'arrowstyle': '->'}
+        )
+        annotation.set_visible(False)
+
+        # Step 3. Implement the hover event to display annotations
+        def motion_hover(event):
+            annotation_visbility = annotation.get_visible()
+            if event.inaxes == ax:
+                is_contained, annotation_index = scatter.contains(event)
+                if is_contained:
+                    data_point_location = scatter.get_offsets()[annotation_index['ind'][0]]
+                    annotation.xy = data_point_location
+
+                    text_label = '({0:.2f}, {1:.2f})'.format(data_point_location[0], data_point_location[1])
+                    annotation.set_text(text_label)
+
+                    annotation.set_alpha(1)
+
+                    annotation.set_visible(True)
+                    fig.canvas.draw_idle()
+                else:
+                    if annotation_visbility:
+                        annotation.set_visible(False)
+                        fig.canvas.draw_idle()
+
+        fig.canvas.mpl_connect('motion_notify_event', motion_hover)
 
         plt.show()
 
