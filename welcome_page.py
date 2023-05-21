@@ -11,15 +11,16 @@ class WelcomePage(tk.Frame):
         self.parent = parent
         self.parent.title("Bienvenido")
         self.selection = tk.StringVar()
+        font = ('TkDefaultFont', 12)
 
-        self.a_label = tk.Label(self, text="Seleccione que tipo de problema desea resolver:")
-        self.a_label.pack(pady=20, padx=10)
+        self.a_label = tk.Label(self, text="Seleccione que tipo de problema desea resolver:", font=font)
+        self.a_label.pack(pady=20, padx=15)
 
-        self.rb1 = tk.Button(self, text="Integración Numerica", width=25, height=2, command=self.open_integracion)
-        self.rb1.pack(pady=10)
+        self.rb1 = tk.Button(self, text="Integración Numérica", width=25, height=2, command=self.open_integracion, font=font)
+        self.rb1.pack(pady=10, padx=10)
 
-        self.rb2 = tk.Button(self, text="Problema de Valor Inicial", width=25, height=2, command=self.open_pvi)
-        self.rb2.pack(pady=10)
+        self.rb2 = tk.Button(self, text="Problema de Valor Inicial", width=25, height=2, command=self.open_pvi, font=font)
+        self.rb2.pack(pady=10, padx=10)
 
     def open_integracion(self):
         integracion_frame = Integracion(self.parent)

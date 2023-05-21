@@ -136,7 +136,7 @@ class PVI(tk.Frame):
         boton_calc = tk.Button(calcular_frame, text="Calcular", command=self.calcular, font=font)
         boton_calc.pack()
 
-        boton_atras = tk.Button(calcular_frame, text="Atras", command=self.go_back, font=font)
+        boton_atras = tk.Button(calcular_frame, text="Atrás", command=self.go_back, font=font)
         boton_atras.pack(pady=10)
 
     def go_back(self):

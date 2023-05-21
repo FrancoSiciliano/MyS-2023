@@ -93,7 +93,7 @@ class Integracion(tk.Frame):
         self.entry_a.grid(row=0, column=2,padx=6)
 
         # input ecuación
-        equation_label = tk.Label(self.main_frame, font=font, text="Ingrese la funcion f(x):")
+        equation_label = tk.Label(self.main_frame, font=font, text="Ingrese la función f(x):")
         equation_label.pack(anchor='w', padx=146)
 
         self.equation_entry = tk.Entry(self.main_frame, width=50)
@@ -149,7 +149,7 @@ class Integracion(tk.Frame):
         boton_calc = tk.Button(calcular_frame, text="Calcular", command=self.calcular, font=font)
         boton_calc.pack()
 
-        boton_atras = tk.Button(calcular_frame, text="Atras", command=self.go_back, font=font)
+        boton_atras = tk.Button(calcular_frame, text="Atrás", command=self.go_back, font=font)
         boton_atras.pack(pady=10)
 
     def go_back(self):
