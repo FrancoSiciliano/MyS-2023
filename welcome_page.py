@@ -1,43 +1,30 @@
 import tkinter as tk
-from frontpvi import PlotWindow as pvi
-from frontintegracion import PlotWindow as integracion
+from frontintegracion import Integracion
+from frontpvi import PVI
 
 
-class RadioButtonsGUI:
+class WelcomePage(tk.Frame):
 
-    def __init__(self, master):
-        self.master = master
-        master.title("Bienvenido")
+    def __init__(self, parent):
+        super().__init__(parent)
 
+        self.parent = parent
+        self.parent.title("Bienvenido")
         self.selection = tk.StringVar()
 
-        self.a_label = tk.Label(master, text="Seleccione que tipo de problema desea resolver:")
-        self.a_label.pack(pady=20)
+        self.a_label = tk.Label(self, text="Seleccione que tipo de problema desea resolver:")
+        self.a_label.pack(pady=20, padx=10)
 
-        self.rb1 = tk.Button(master, text="Integración Numerica", width=25, height=2, command=self.integracion_numerica)
+        self.rb1 = tk.Button(self, text="Integración Numerica", width=25, height=2, command=self.open_integracion)
         self.rb1.pack(pady=10)
 
-        self.rb2 = tk.Button(master, text="Problema de Valor Inicial", width=25, height=2, command=self.pvi)
+        self.rb2 = tk.Button(self, text="Problema de Valor Inicial", width=25, height=2, command=self.open_pvi)
         self.rb2.pack(pady=10)
 
-    def pvi(self):
-        root.destroy()
-        pvi_window = tk.Tk()
-        pvi_window.title("PVI")
-        pvi_window.geometry("600x400")
-        pvi(pvi_window)
-        pvi_window.mainloop()
+    def open_integracion(self):
+        integracion_frame = Integracion(self.parent)
+        self.parent.switch_frame(integracion_frame)
 
-
-    def integracion_numerica(self):
-        root.destroy()
-        integracion_window = tk.Tk()
-        integracion_window.title("Integración")
-        integracion_window.geometry("600x400")
-        integracion(integracion_window)
-        integracion_window.mainloop()
-
-root = tk.Tk()
-app = RadioButtonsGUI(root)
-root.geometry("300x250")
-root.mainloop()
+    def open_pvi(self):
+        pvi_frame = PVI(self.parent)
+        self.parent.switch_frame(pvi_frame)

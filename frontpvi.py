@@ -29,10 +29,10 @@ class PVI(tk.Frame):
         self.parent.title("PVI")
         font = ('TkDefaultFont', 12)
 
-        main_frame = tk.Frame(parent)
-        main_frame.pack()
+        self.main_frame = tk.Frame(parent)
+        self.main_frame.pack()
 
-        input_form = tk.Frame(main_frame)
+        input_form = tk.Frame(self.main_frame)
         input_form.pack()
 
         # elección de método
@@ -80,15 +80,15 @@ class PVI(tk.Frame):
         self.entry_x0.grid(row=0, column=1,sticky="w")
 
         # input ecuación
-        equation_label = tk.Label(main_frame, font=font, text="Ingrese la ecuación diferencial:")
+        equation_label = tk.Label(self.main_frame, font=font, text="Ingrese la ecuación diferencial:")
         equation_label.pack(anchor='w', padx=146)
 
-        self.equation_entry = tk.Entry(main_frame, width=50)
+        self.equation_entry = tk.Entry(self.main_frame, width=50)
         self.equation_entry.pack()
         self.equation_entry.bind('<KeyRelease>', self.plot_equation)
 
         # Botones para agregar funciones
-        function_frame = tk.Frame(main_frame)
+        function_frame = tk.Frame(self.main_frame)
         function_frame.pack(pady=10)
 
         plus_button = tk.Button(function_frame, text='+', font=font, command=lambda: self.add_function('+'))
@@ -124,18 +124,24 @@ class PVI(tk.Frame):
         self.fig, self.ax = plt.subplots()
         self.ax.axis('off')
         self.ax.text(0.5, 0.5, "$f(x,t):$", fontsize=20, usetex=True, ha='center', va='center')
-        self.canvas = FigureCanvasTkAgg(self.fig, master=main_frame)
+        self.canvas = FigureCanvasTkAgg(self.fig, master=self.main_frame)
         self.canvas.get_tk_widget().config(width=600, height=50)
         self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True, padx=10, pady=10)
         self.canvas.draw()
 
         #boton de calcular
-        calcular_frame = tk.Frame(main_frame)
+        calcular_frame = tk.Frame(self.main_frame)
         calcular_frame.pack()
 
-        boton_calc = tk.Button(calcular_frame, text="Calcular", command=self.calcular)
+        boton_calc = tk.Button(calcular_frame, text="Calcular", command=self.calcular, font=font)
         boton_calc.pack()
 
+        boton_atras = tk.Button(calcular_frame, text="Atras", command=self.go_back, font=font)
+        boton_atras.pack(pady=10)
+
+    def go_back(self):
+        self.main_frame.destroy()
+        self.parent.go_back()
     def plot_equation(self, event=None):
 
         self.ax.cla()

@@ -22,15 +22,21 @@ def validar_x0(texto):
 
 class Integracion(tk.Frame):
     def __init__(self, parent):
+
         super().__init__(parent)
+
         self.parent = parent
-        self.tittle("integracion")
+        self.parent.title("Integracion")
+
         self.canvas = None
 
         font = ('TkDefaultFont', 12)
 
-        input_form = tk.Frame(parent)
-        input_form.pack()
+        self.main_frame = tk.Frame(self)
+        self.main_frame.pack()
+
+        self.input_form = tk.Frame(self.main_frame)
+        self.input_form.pack()
 
         def update_label_text():
             if self.opcion.get() == 3:
@@ -39,7 +45,7 @@ class Integracion(tk.Frame):
                 label_n.config(text="Número de intervalos: ")
 
         # elección de método
-        method_input = tk.Frame(input_form)
+        method_input = tk.Frame(self.input_form)
         method_input.grid(row=0, column=0, sticky="w")
         self.opcion = tk.IntVar()
 
@@ -57,7 +63,7 @@ class Integracion(tk.Frame):
 
 
         # input de n
-        input_frame = tk.Frame(input_form)
+        input_frame = tk.Frame(self.input_form)
         input_frame.grid(row=1, column=0,sticky="w")
 
         label_n = tk.Label(input_frame, text="Número de intervalos: ", font=font)
@@ -67,7 +73,7 @@ class Integracion(tk.Frame):
         self.entry_n.grid(row=0, column=5,padx=20)
 
         # input de b
-        input_frame_b = tk.Frame(input_form)
+        input_frame_b = tk.Frame(self.input_form)
         input_frame_b.grid(row=2, column=0,sticky="w")
 
         label_b = tk.Label(input_frame_b, text="Límite superior b (hasta):", font=font)
@@ -77,7 +83,7 @@ class Integracion(tk.Frame):
         self.entry_b.grid(row=0, column=2,padx=3)
 
         # input de a
-        input_frame_a = tk.Frame(input_form)
+        input_frame_a = tk.Frame(self.input_form)
         input_frame_a.grid(row=3, column=0,sticky="w")
 
         label_a = tk.Label(input_frame_a, text="Límite inferior a (desde):", font=font)
@@ -87,15 +93,15 @@ class Integracion(tk.Frame):
         self.entry_a.grid(row=0, column=2,padx=6)
 
         # input ecuación
-        equation_label = tk.Label(self.parent, font=font, text="Ingrese la funcion f(x):")
+        equation_label = tk.Label(self.main_frame, font=font, text="Ingrese la funcion f(x):")
         equation_label.pack(anchor='w', padx=146)
 
-        self.equation_entry = tk.Entry(self.parent, width=50)
+        self.equation_entry = tk.Entry(self.main_frame, width=50)
         self.equation_entry.pack()
         self.equation_entry.bind('<KeyRelease>', self.plot_equation)
 
         # Botones para agregar funciones
-        function_frame = tk.Frame(self.parent)
+        function_frame = tk.Frame(self.main_frame)
         function_frame.pack(pady=10)
 
         plus_button = tk.Button(function_frame, text='+', font=font, command=lambda: self.add_function('+'))
@@ -131,17 +137,24 @@ class Integracion(tk.Frame):
         self.fig, self.ax = plt.subplots()
         self.ax.axis('off')
         self.ax.text(0.5, 0.5, "$f(x):$", fontsize=20, usetex=True, ha='center', va='center')
-        self.canvas = FigureCanvasTkAgg(self.fig, master=self.self.parent)
+        self.canvas = FigureCanvasTkAgg(self.fig, master=self.main_frame)
         self.canvas.get_tk_widget().config(width=600, height=50)
         self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True, padx=10, pady=10)
         self.canvas.draw()
 
         #boton de calcular
-        calcular_frame = tk.Frame(self.parent)
+        calcular_frame = tk.Frame(self.main_frame)
         calcular_frame.pack(pady=10)
 
-        boton_calc = tk.Button(calcular_frame, text="Calcular", command=self.calcular)
+        boton_calc = tk.Button(calcular_frame, text="Calcular", command=self.calcular, font=font)
         boton_calc.pack()
+
+        boton_atras = tk.Button(calcular_frame, text="Atras", command=self.go_back, font=font)
+        boton_atras.pack(pady=10)
+
+    def go_back(self):
+        self.main_frame.destroy()
+        self.parent.go_back()
 
     def plot_equation(self, event=None):
 
