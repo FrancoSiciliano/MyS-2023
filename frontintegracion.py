@@ -20,14 +20,16 @@ def validar_x0(texto):
         return False
 
 
-class PlotWindow:
-    def __init__(self, root):
-        self.root = root
+class Integracion(tk.Frame):
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.parent = parent
+        self.tittle("integracion")
         self.canvas = None
 
         font = ('TkDefaultFont', 12)
 
-        input_form = tk.Frame(root)
+        input_form = tk.Frame(parent)
         input_form.pack()
 
         def update_label_text():
@@ -61,7 +63,7 @@ class PlotWindow:
         label_n = tk.Label(input_frame, text="Número de intervalos: ", font=font)
         label_n.grid(row=0, column=0)
 
-        self.entry_n = tk.Entry(input_frame, width=8, validate="key", validatecommand=(root.register(validar_texto), '%P'))
+        self.entry_n = tk.Entry(input_frame, width=8, validate="key", validatecommand=(self.parent.register(validar_texto), '%P'))
         self.entry_n.grid(row=0, column=5,padx=20)
 
         # input de b
@@ -71,7 +73,7 @@ class PlotWindow:
         label_b = tk.Label(input_frame_b, text="Límite superior b (hasta):", font=font)
         label_b.grid(row=0, column=0,sticky="w")
 
-        self.entry_b = tk.Entry(input_frame_b, width=8, validate="key", validatecommand=(root.register(validar_texto), '%P'))
+        self.entry_b = tk.Entry(input_frame_b, width=8, validate="key", validatecommand=(self.parent.register(validar_texto), '%P'))
         self.entry_b.grid(row=0, column=2,padx=3)
 
         # input de a
@@ -81,19 +83,19 @@ class PlotWindow:
         label_a = tk.Label(input_frame_a, text="Límite inferior a (desde):", font=font)
         label_a.grid(row=0, column=0,sticky="w")
 
-        self.entry_a = tk.Entry(input_frame_a, width=8, validate="key", validatecommand=(root.register(validar_x0), '%P'))
+        self.entry_a = tk.Entry(input_frame_a, width=8, validate="key", validatecommand=(self.parent.register(validar_x0), '%P'))
         self.entry_a.grid(row=0, column=2,padx=6)
 
         # input ecuación
-        equation_label = tk.Label(root, font=font, text="Ingrese la funcion f(x):")
+        equation_label = tk.Label(self.parent, font=font, text="Ingrese la funcion f(x):")
         equation_label.pack(anchor='w', padx=146)
 
-        self.equation_entry = tk.Entry(root, width=50)
+        self.equation_entry = tk.Entry(self.parent, width=50)
         self.equation_entry.pack()
         self.equation_entry.bind('<KeyRelease>', self.plot_equation)
 
         # Botones para agregar funciones
-        function_frame = tk.Frame(root)
+        function_frame = tk.Frame(self.parent)
         function_frame.pack(pady=10)
 
         plus_button = tk.Button(function_frame, text='+', font=font, command=lambda: self.add_function('+'))
@@ -129,13 +131,13 @@ class PlotWindow:
         self.fig, self.ax = plt.subplots()
         self.ax.axis('off')
         self.ax.text(0.5, 0.5, "$f(x):$", fontsize=20, usetex=True, ha='center', va='center')
-        self.canvas = FigureCanvasTkAgg(self.fig, master=self.root)
+        self.canvas = FigureCanvasTkAgg(self.fig, master=self.self.parent)
         self.canvas.get_tk_widget().config(width=600, height=50)
         self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True, padx=10, pady=10)
         self.canvas.draw()
 
         #boton de calcular
-        calcular_frame = tk.Frame(root)
+        calcular_frame = tk.Frame(self.parent)
         calcular_frame.pack(pady=10)
 
         boton_calc = tk.Button(calcular_frame, text="Calcular", command=self.calcular)
