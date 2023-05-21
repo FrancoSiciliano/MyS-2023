@@ -21,14 +21,15 @@ def validar_x0(texto):
         return False
 
 
-class PlotWindow:
-    def __init__(self, root):
-        self.root = root
+class PVI(tk.Frame):
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.parent = parent
         self.canvas = None
-
+        self.parent.title("PVI")
         font = ('TkDefaultFont', 12)
 
-        input_form = tk.Frame(root)
+        input_form = tk.Frame(parent)
         input_form.pack()
 
         # elección de método
@@ -52,7 +53,7 @@ class PlotWindow:
         label_n = tk.Label(input_frame, text="Número de intervalos: ", font=font)
         label_n.grid(row=0, column=0)
 
-        self.entry_n = tk.Entry(input_frame, width=4, validate="key", validatecommand=(root.register(validar_texto), '%P'))
+        self.entry_n = tk.Entry(input_frame, width=4, validate="key", validatecommand=(parent.register(validar_texto), '%P'))
         self.entry_n.grid(row=0, column=1)
 
         # input de t
@@ -62,7 +63,7 @@ class PlotWindow:
         label_b = tk.Label(input_frame_t, text="0 ≤ t ≤ ", font=font)
         label_b.grid(row=0, column=0)
 
-        self.entry_b = tk.Entry(input_frame_t, width=4, validate="key", validatecommand=(root.register(validar_texto), '%P'))
+        self.entry_b = tk.Entry(input_frame_t, width=4, validate="key", validatecommand=(parent.register(validar_texto), '%P'))
         self.entry_b.grid(row=0, column=1)
 
         # input de x0
@@ -72,19 +73,19 @@ class PlotWindow:
         label_x0 = tk.Label(input_frame_x0, text="x(0) = ", font=font)
         label_x0.grid(row=0, column=0)
 
-        self.entry_x0 = tk.Entry(input_frame_x0, validate="key", validatecommand=(root.register(validar_x0), '%P'))
+        self.entry_x0 = tk.Entry(input_frame_x0, validate="key", validatecommand=(parent.register(validar_x0), '%P'))
         self.entry_x0.grid(row=0, column=1)
 
         # input ecuación
-        equation_label = tk.Label(root, font=font, text="Ingrese la ecuación diferencial:")
+        equation_label = tk.Label(parent, font=font, text="Ingrese la ecuación diferencial:")
         equation_label.pack()
 
-        self.equation_entry = tk.Entry(root, width=50)
+        self.equation_entry = tk.Entry(parent, width=50)
         self.equation_entry.pack()
         self.equation_entry.bind('<KeyRelease>', self.plot_equation)
 
         # Botones para agregar funciones
-        function_frame = tk.Frame(root)
+        function_frame = tk.Frame(parent)
         function_frame.pack(pady=10)
 
         plus_button = tk.Button(function_frame, text='+', font=font, command=lambda: self.add_function('+'))
@@ -126,7 +127,7 @@ class PlotWindow:
         self.canvas.draw()
 
         #boton de calcular
-        calcular_frame = tk.Frame(root)
+        calcular_frame = tk.Frame(parent)
         calcular_frame.pack()
 
         boton_calc = tk.Button(calcular_frame, text="Calcular", command=self.calcular)
